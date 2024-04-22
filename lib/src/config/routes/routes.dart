@@ -1,4 +1,5 @@
 import 'package:flutter_deep_linking/flutter_deep_linking.dart';
+import 'package:splitter_web_frontend/src/pages/Admin/Sidebar/registrar_estudiante_page.dart';
 import 'package:splitter_web_frontend/src/pages/Admin/app_admin.dart';
 import 'package:splitter_web_frontend/src/pages/pages.dart' ;
 
@@ -13,8 +14,8 @@ final router = Router(routes: [
       materialBuilder: (_, __) => const AppAdmin(),
     ),
     Route(
-      matcher: Matcher.path(RegistrarEstudiante.name),
-      materialBuilder: (_, __) => const RegistrarEstudiante(),
+      matcher: Matcher.path(RegistrarEstudiantePage.name),
+      materialBuilder: (_, __) => const RegistrarEstudiantePage(),
     ),
   ])
 ]);

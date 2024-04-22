@@ -3,7 +3,7 @@ enum SidebarItem {
   registrarUsuario,
   estudiantes,
   workflow,
-  updates,
+  editarEstudiante,
   plugins,
   notifications,
 }

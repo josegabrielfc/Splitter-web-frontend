@@ -1,3 +1,4 @@
+import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:splitter_web_frontend/src/config/environment/environment.dart';
 
@@ -80,15 +81,15 @@ class CustomTextFormField extends StatelessWidget {
         obscureText: obscureText,
         decoration: InputDecoration(
           fillColor: readOnly == true ? grisTransColor : blancoColor,
-          contentPadding:  EdgeInsets.symmetric(vertical: height / 2, horizontal: 20),
+          contentPadding:
+              EdgeInsets.symmetric(vertical: height / 2, horizontal: 20),
           isCollapsed: true,
           filled: true,
           enabledBorder: border,
           prefixIcon: icon,
           hintStyle: TextStyle(
             fontFamily: fontApp,
-            color:
-                readOnly == true ? grisOscColor : hintColor ?? grisClaColor,
+            color: readOnly == true ? grisOscColor : hintColor ?? grisClaColor,
             fontSize: bigSize,
           ),
           focusedBorder: border,
@@ -109,7 +110,8 @@ class CustomTextFormField extends StatelessWidget {
 }
 
 // ignore: must_be_immutable
-class CustomPassword extends StatefulWidget { //Custom TextFormField for Password
+class CustomPassword extends StatefulWidget {
+  //Custom TextFormField for Password
   final double width;
   final double height;
   final String? label;
@@ -174,8 +176,8 @@ class _CustomPasswordState extends State<CustomPassword> {
           fontSize: mediumSize,
         ),
         decoration: InputDecoration(
-            contentPadding:
-                EdgeInsets.symmetric(vertical: widget.height/2, horizontal: 20),
+            contentPadding: EdgeInsets.symmetric(
+                vertical: widget.height / 2, horizontal: 20),
             fillColor: blancoColor,
             filled: true,
             enabledBorder: border,
@@ -208,6 +210,143 @@ class _CustomPasswordState extends State<CustomPassword> {
               padding: const EdgeInsets.only(right: 15),
             )),
       ),
+    );
+  }
+}
+
+// ignore: must_be_immutable
+class DropdownBuscador<T> extends StatelessWidget {
+  final List<T> items;
+  final String hint;
+  final bool isSearch;
+  final bool? readOnly;
+  final void Function(T?)? onChanged;
+  final String? Function(T?)? validator;
+  late double? sizeBorderRadius;
+
+  DropdownBuscador(
+      {super.key,
+      required this.items,
+      required this.hint,
+      this.isSearch = true,
+      this.readOnly = false,
+      this.onChanged,
+      this.validator,
+      this.sizeBorderRadius,}) {
+    sizeBorderRadius = sizeBorderRadius ?? 35.0;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final media = MediaQuery.of(context).size;
+    final border = OutlineInputBorder(
+        borderRadius: BorderRadius.circular(sizeBorderRadius!),
+        borderSide: BorderSide(color: negroClaColor, width: 1.75));
+    final labelStyle = TextStyle(
+        color: negroClaColor, fontFamily: fontApp, fontSize: mediumSize);
+    return DropdownSearch<T>(
+      compareFn: (item1, item2) {
+        return item1.toString().contains(item2.toString()) ||
+            item2.toString().contains(item1.toString());
+      },
+      validator: validator,
+      autoValidateMode: AutovalidateMode.onUserInteraction,
+      popupProps: PopupProps.menu(
+        containerBuilder: (context, popupWidget) {
+          return SizedBox(
+            height:
+                isSearch ? media.height * 30 / 100 : media.height * 25 / 100,
+            child: popupWidget,
+          );
+        },
+        isFilterOnline: false,
+        showSelectedItems: true,
+        showSearchBox: isSearch,
+        searchDelay: Duration.zero,
+        itemBuilder: (context, item, isSelected) {
+          return Padding(
+            padding:
+                const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+            child: Text(
+              item.toString(),
+              style: isSelected
+                  ? labelStyle
+                  : labelStyle.copyWith(
+                      color: negroColor,
+                    ),
+            ),
+          );
+        },
+        emptyBuilder: (context, searchEntry) {
+          return Center(
+              child: Text(
+            'No hay datos',
+            style: labelStyle,
+          ));
+        },
+        searchFieldProps: TextFieldProps(
+          decoration: InputDecoration(
+              isCollapsed: true,
+              contentPadding:
+                  const EdgeInsets.only(left: 20, bottom: 10, top: 10),
+              border:
+                  border.copyWith(borderSide: BorderSide(color: grisClarito)),
+              enabledBorder:
+                  border.copyWith(borderSide: BorderSide(color: grisClarito)),
+              hintText: 'Escribe el nombre',
+              hintStyle: labelStyle.copyWith(color: grisClaColor),
+              suffixIcon: Icon(
+                Icons.search,
+                color: grisClaColor,
+              )),
+        ),
+      ),
+      dropdownDecoratorProps: DropDownDecoratorProps(
+        dropdownSearchDecoration: InputDecoration(
+          contentPadding: const EdgeInsets.only(
+            left: 20,
+          ),
+          isCollapsed: true,
+          hintText: hint,
+          hintStyle: labelStyle,
+          border: border,
+          labelStyle: labelStyle,
+          filled: true,
+          fillColor:
+              items.isEmpty ? grisClaColor.withOpacity(0.07) : blancoColor,
+          errorStyle: labelStyle.copyWith(
+            color: rojoColor,
+            fontSize: smallSize,
+          ),
+          errorBorder: border.copyWith(
+              borderSide: BorderSide(color: rojoColor, width: 1)),
+          enabledBorder: border,
+          focusedBorder: border,
+        ),
+      ),
+      dropdownButtonProps: DropdownButtonProps(
+        icon: const Icon(
+          Icons.keyboard_arrow_down_rounded,
+        ),
+        color: items.isEmpty ? grisColor : negroClaColor,
+      ),
+      dropdownBuilder: (context, selectedItem) {
+        return SizedBox(
+          height: media.height * 7 / 100,
+          child: Align(
+            alignment: Alignment.centerLeft,
+            child: Text(
+              selectedItem != null ? selectedItem.toString() : hint,
+              style: items.isEmpty
+                  ? labelStyle.copyWith(color: grisColor)
+                  : labelStyle,
+            ),
+          ),
+        );
+      },
+      enabled: items.isNotEmpty,
+      items: items,
+      onChanged: onChanged,
     );
   }
 }

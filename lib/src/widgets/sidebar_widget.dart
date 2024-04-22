@@ -52,7 +52,7 @@ class SidebarWidget extends StatelessWidget {
                     const SizedBox(height: 16),
                     buildMenuItem(
                       context,
-                      item: SidebarItem.updates,
+                      item: SidebarItem.editarEstudiante,
                       text: 'Updates',
                       icon: Icons.update,
                     ),
@@ -122,11 +122,11 @@ class SidebarWidget extends StatelessWidget {
         child: InkWell(
           onTap: () => selectItem(context, SidebarItem.header),
           child: Container(
-            padding: padding.add(const EdgeInsets.symmetric(vertical: 40)),
+            padding: padding.add(const EdgeInsets.symmetric(vertical: 30)),
             child: Row(
               children: [
                 CircleAvatar(
-                    radius: 30, backgroundImage: NetworkImage(urlImage)),
+                    radius: 40, backgroundImage: NetworkImage(urlImage)),
                 const SizedBox(width: 20),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -142,12 +142,6 @@ class SidebarWidget extends StatelessWidget {
                     ),
                   ],
                 ),
-                const Spacer(),
-                CircleAvatar(
-                  radius: 24,
-                  backgroundColor: rojoClaColor,
-                  child: Icon(Icons.add_comment_outlined, color: blancoColor),
-                )
               ],
             ),
           ),

@@ -4,29 +4,33 @@ import 'package:splitter_web_frontend/src/widgets/inputs.dart';
 import 'package:splitter_web_frontend/src/widgets/sidebar_widget.dart';
 import 'package:splitter_web_frontend/src/widgets/widgets_general.dart';
 
-class HeaderPage extends StatefulWidget {
-  const HeaderPage({super.key});
+class RegistrarEstudiantePage extends StatefulWidget {
+  static const name = 'registrar-page';
+  const RegistrarEstudiantePage({super.key});
 
   @override
-  State<HeaderPage> createState() => _HeaderPageState();
+  State<RegistrarEstudiantePage> createState() =>
+      _RegistrarEstudiantePageState();
 }
 
-class _HeaderPageState extends State<HeaderPage> {
-  final TextEditingController _controllerName = TextEditingController(text: "Miguel Fabian ");
-  final TextEditingController _controllerLastname = TextEditingController(text: "Robles Angarita");
-  final TextEditingController _controllerEmail = TextEditingController(text: "roblesanga@gmail.com");
+class _RegistrarEstudiantePageState extends State<RegistrarEstudiantePage> {
+  final TextEditingController _controllerName = TextEditingController();
+  final TextEditingController _controllerLastname = TextEditingController();
+  final TextEditingController _controllerEmail = TextEditingController();
   final TextEditingController _controllerPassword = TextEditingController();
-  final TextEditingController _controllerValidatePassword = TextEditingController();
-      
+  final TextEditingController _controllerValidatePassword =
+      TextEditingController();
+  // ignore: unused_field
+  String _curso = '';
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return Scaffold(
       drawer: const SidebarWidget(),
       appBar: AppBar(
-        title: const Text('Perfil'),
+        title: const Text('Registro'),
         centerTitle: true,
-        backgroundColor: rojoClaColor,
+        backgroundColor: rojoColor,
       ),
       body: Center(
         child: Container(
@@ -42,15 +46,14 @@ class _HeaderPageState extends State<HeaderPage> {
           child:
               Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
             separadorVertical(context, 4),
-            texto('Perfil profesor', fontBold, extraBigSize + 2,
+            texto('Registrar estudiante', fontBold, extraBigSize + 2,
                 negroColor, TextAlign.justify),
             separadorVertical(context, 3),
-            texto('Aqui puedes visualizar y editar tus datos:', fontMedium,
+            texto('Ingresa los siguientes datos a continuación:', fontMedium,
                 bigSize, negroColor, TextAlign.justify),
-            separadorVertical(context, 4),
+            separadorVertical(context, 3),
             Form(
               child: CustomTextFormField(
-                readOnly: true,
                 sizeBorderRadius: 10,
                 hintColor: grisOscColor,
                 borderColor: negroClaColor,
@@ -64,7 +67,6 @@ class _HeaderPageState extends State<HeaderPage> {
             separadorVertical(context, 3),
             Form(
               child: CustomTextFormField(
-                readOnly: true,
                 sizeBorderRadius: 10,
                 hintColor: grisOscColor,
                 borderColor: negroClaColor,
@@ -78,7 +80,6 @@ class _HeaderPageState extends State<HeaderPage> {
             separadorVertical(context, 3),
             Form(
               child: CustomTextFormField(
-                readOnly: true,
                 sizeBorderRadius: 10,
                 hintColor: grisOscColor,
                 borderColor: negroClaColor,
@@ -91,7 +92,7 @@ class _HeaderPageState extends State<HeaderPage> {
             ),
             separadorVertical(context, 3),
             Form(
-              child: CustomPassword(
+              child: CustomTextFormField(
                 sizeBorderRadius: 10,
                 hintColor: grisOscColor,
                 borderColor: negroClaColor,
@@ -104,7 +105,7 @@ class _HeaderPageState extends State<HeaderPage> {
             ),
             separadorVertical(context, 3),
             Form(
-              child: CustomPassword(
+              child: CustomTextFormField(
                 sizeBorderRadius: 10,
                 hintColor: grisOscColor,
                 borderColor: negroClaColor,
@@ -115,12 +116,29 @@ class _HeaderPageState extends State<HeaderPage> {
                 controller: _controllerValidatePassword,
               ),
             ),
-            separadorVertical(context, 12),
+            separadorVertical(context, 3),
+            SizedBox(
+              width: selectDevice(web: 0.6, cel: 0.8, sizeContext: size.width),
+              height: size.height * 0.06,
+              child: DropdownBuscador(
+                sizeBorderRadius: 10,
+                hint: " Curso",
+                items: const [
+                  "Curso 1",
+                  "Curso 2",
+                ],
+                onChanged: (value) => setState(() {
+                  _curso = value.toString();
+                }),
+              ),
+            ),
+            separadorVertical(context, 4),
             Row(
+              //crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 CustomButton(
-                    textButton: "Editar Profesor",
+                    textButton: "Registrar",
                     widthButton: selectDevice(
                         web: 0.2, cel: 0.375, sizeContext: size.width),
                     sizeBorderRadius: 10,
