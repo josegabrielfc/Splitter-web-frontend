@@ -1,9 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:provider/provider.dart';
-import 'package:splitter_web_frontend/src/models/sidebar_item.dart';
 import 'package:splitter_web_frontend/src/widgets/sidebar_widget.dart';
-import 'package:splitter_web_frontend/src/providers/sidebar_provider.dart';
 
 class RegistrarEstudiante extends StatefulWidget {
   static const name = 'registrar-estudiante';

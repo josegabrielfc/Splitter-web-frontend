@@ -11,15 +11,14 @@ import 'package:splitter_web_frontend/src/pages/Admin/Sidebar/updates_page.dart'
 import 'package:splitter_web_frontend/src/pages/Admin/Sidebar/workflow_page.dart';
 import 'package:splitter_web_frontend/src/providers/sidebar_provider.dart';
 
-class AdminPage extends StatefulWidget {
-  //static const name = 'admin-page';
-  const AdminPage({super.key});
+class AdminBuildPage extends StatefulWidget {
+  const AdminBuildPage({super.key});
 
   @override
-  State<AdminPage> createState() => _AdminPageState();
+  State<AdminBuildPage> createState() => _AdminBuildPageState();
 }
 
-class _AdminPageState extends State<AdminPage> {
+class _AdminBuildPageState extends State<AdminBuildPage> {
   @override
    Widget build(BuildContext context) => buildPages();
 

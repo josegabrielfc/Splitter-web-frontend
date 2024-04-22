@@ -4,6 +4,7 @@ import 'package:splitter_web_frontend/src/config/environment/environment.dart';
 import 'package:splitter_web_frontend/src/models/sidebar_item.dart';
 import 'package:splitter_web_frontend/src/models/user.dart';
 import 'package:splitter_web_frontend/src/providers/sidebar_provider.dart';
+import 'package:splitter_web_frontend/src/widgets/widgets_general.dart';
 /*import 'package:selectable_navigation_drawer_example/provider/navigation_provider.dart';*/
 
 class SidebarWidget extends StatelessWidget {
@@ -74,6 +75,8 @@ class SidebarWidget extends StatelessWidget {
                   ],
                 ),
               ),
+              separadorVertical(context, 17),
+              buildLogo(context, image: 'images/logo-colegio.png'),
             ],
           ),
         ),
@@ -88,7 +91,7 @@ class SidebarWidget extends StatelessWidget {
     final provider = Provider.of<SidebarProvider>(context);
     final currentItem = provider.sidebarItem;
     final isSelected = item == currentItem;
-
+    
     final color =  blancoColor;
 
     return Material(
@@ -149,5 +152,22 @@ class SidebarWidget extends StatelessWidget {
             ),
           ),
         ),
+      );
+    
+    Widget buildLogo(
+    BuildContext context, {
+    required String image,
+  }) =>
+      Material(
+        color: const Color.fromRGBO(142, 142, 142, 1),
+        child: Container(
+            padding: const EdgeInsets.all(10),
+            height: MediaQuery.of(context).size.height * 0.14,
+            child: Container(
+              decoration: BoxDecoration(
+                image: DecorationImage(image: AssetImage(image), fit: BoxFit.scaleDown),
+              ),
+            ),
+          ),
       );
 }
