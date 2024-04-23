@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-String urlBase = 'http://';
+String urlBase = 'http://localhost:8080';
 
 Color rojoColor = const Color.fromARGB(255, 254, 0, 0);
 Color rojoClaColor = const Color.fromARGB(255, 252, 70, 70);

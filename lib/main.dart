@@ -8,6 +8,7 @@ import 'package:provider/provider.dart';
 import 'package:splitter_web_frontend/src/config/environment/environment.dart';
 import 'package:splitter_web_frontend/src/config/routes/routes.dart';
 import 'package:splitter_web_frontend/src/providers/navigator_provider.dart';
+import 'package:splitter_web_frontend/src/providers/service_provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -31,6 +32,7 @@ class AppState extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => NavigatorProvider()),
+        ChangeNotifierProvider(create: (_) => ServicesProvider())
         /*ChangeNotifierProvider(create: (_) => DatosGlobalesProvider()),
         ChangeNotifierProvider(create: (_) => UsuarioProvider()), */
       ],

@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 //import 'package:provider/provider.dart';
 //import 'package:splitter_web_frontend/src/providers/navigator_provider.dart';
 import 'package:splitter_web_frontend/src/config/environment/environment.dart';
+import 'package:splitter_web_frontend/src/models/login/login_model.dart';
+import 'package:splitter_web_frontend/src/providers/service_provider.dart';
 import 'package:splitter_web_frontend/src/widgets/inputs.dart';
 import 'package:splitter_web_frontend/src/widgets/widgets_general.dart';
 
@@ -19,7 +22,9 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    //final provider = Provider.of<NavigatorProvider>(context);
+    final servicePorvider =
+        Provider.of<ServicesProvider>(context, listen: false);
+
     return Scaffold(
       body: Container(
         width: size.width,
@@ -39,7 +44,8 @@ class _LoginPageState extends State<LoginPage> {
           body: Center(
             child: Container(
               height: size.height * 0.6,
-              width: selectDevice(web: 0.35, cel: 0.875, sizeContext: size.width),
+              width:
+                  selectDevice(web: 0.35, cel: 0.875, sizeContext: size.width),
               decoration: BoxDecoration(
                   color: blancoColor, borderRadius: BorderRadius.circular(20)),
               child: Column(
@@ -54,7 +60,8 @@ class _LoginPageState extends State<LoginPage> {
                       sizeBorderRadius: 10,
                       hintColor: grisOscColor,
                       borderColor: negroClaColor,
-                      width: selectDevice(web: 0.24, cel: 0.7, sizeContext: size.width),
+                      width: selectDevice(
+                          web: 0.24, cel: 0.7, sizeContext: size.width),
                       height: size.height * 0.06,
                       hint: "Email *",
                       controller: _controllerEmail,
@@ -66,7 +73,8 @@ class _LoginPageState extends State<LoginPage> {
                       sizeBorderRadius: 10,
                       hintColor: grisOscColor,
                       borderColor: negroClaColor,
-                      width: selectDevice(web: 0.24, cel: 0.7, sizeContext: size.width),
+                      width: selectDevice(
+                          web: 0.24, cel: 0.7, sizeContext: size.width),
                       height: size.height * 0.06,
                       hint: "Contraseña *",
                       controller: _controllerPassword,
@@ -79,11 +87,22 @@ class _LoginPageState extends State<LoginPage> {
                       size: bigSize + 4,
                       textButton: 'Iniciar sesión',
                       heightButton: size.height * 0.065,
-                      widthButton: selectDevice(web: 0.22, cel: 0.64, sizeContext: size.width),
+                      widthButton: selectDevice(
+                          web: 0.22, cel: 0.64, sizeContext: size.width),
                       sizeBorderRadius: 15,
                       duration: 1000,
-                      onTap: () {
-                          //provider.push(page:"registrar-estudiante");
+                      onTap: () async {
+                        LoginModel loginRequest = LoginModel(
+                            contrasena: _controllerPassword.text,
+                            correo: _controllerEmail.text);
+                        final response = await servicePorvider.loginService
+                            .login(loginRequest);
+                        if (response.type == 'success') {
+                          // ignore: use_build_context_synchronously
+                          Navigator.pushNamed(context, "admin-page");
+                        } else {
+                          print('error');
+                        }
                       }),
                 ],
               ),
