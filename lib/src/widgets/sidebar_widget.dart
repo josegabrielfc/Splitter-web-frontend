@@ -2,10 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:splitter_web_frontend/src/config/environment/environment.dart';
 import 'package:splitter_web_frontend/src/models/sidebar_item.dart';
-import 'package:splitter_web_frontend/src/models/user.dart';
 import 'package:splitter_web_frontend/src/providers/sidebar_provider.dart';
+import 'package:splitter_web_frontend/src/providers/usuario_provider.dart';
 import 'package:splitter_web_frontend/src/widgets/widgets_general.dart';
-/*import 'package:selectable_navigation_drawer_example/provider/navigation_provider.dart';*/
 
 class SidebarWidget extends StatelessWidget {
   static const padding = EdgeInsets.symmetric(horizontal: 20);
@@ -13,16 +12,19 @@ class SidebarWidget extends StatelessWidget {
   const SidebarWidget({super.key});
 
   @override
-  Widget build(BuildContext context) => Drawer(
+  Widget build(BuildContext context) {
+    final usuarioProvider = Provider.of<UsuarioProvider>(context, listen: false);
+    return Drawer(
+    
         child: Container(
           color: const Color.fromRGBO(142, 142, 142, 1),
           child: ListView(
             children: <Widget>[
               buildHeader(
                 context,
-                urlImage: urlImage,
-                name: name,
-                email: email,
+                urlImage: 'assets/images/user_icon.png',
+                name: usuarioProvider.usuario!.nombre,
+                email: usuarioProvider.usuario!.correo,
               ),
               Container(
                 padding: padding,
@@ -82,6 +84,7 @@ class SidebarWidget extends StatelessWidget {
         ),
       );
 
+  }
   Widget buildMenuItem(
     BuildContext context, {
     required SidebarItem item,

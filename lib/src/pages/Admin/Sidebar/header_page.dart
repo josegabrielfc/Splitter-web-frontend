@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:splitter_web_frontend/src/config/environment/environment.dart';
+import 'package:splitter_web_frontend/src/providers/usuario_provider.dart';
 import 'package:splitter_web_frontend/src/widgets/inputs.dart';
 import 'package:splitter_web_frontend/src/widgets/sidebar_widget.dart';
 import 'package:splitter_web_frontend/src/widgets/widgets_general.dart';
 
 class HeaderPage extends StatefulWidget {
+  static const name = 'header-page';
   const HeaderPage({super.key});
 
   @override
@@ -12,12 +15,24 @@ class HeaderPage extends StatefulWidget {
 }
 
 class _HeaderPageState extends State<HeaderPage> {
-  final TextEditingController _controllerName = TextEditingController(text: "Miguel Fabian ");
-  final TextEditingController _controllerLastname = TextEditingController(text: "Robles Angarita");
-  final TextEditingController _controllerEmail = TextEditingController(text: "roblesanga@gmail.com");
+  final TextEditingController _controllerName = TextEditingController();
+  final TextEditingController _controllerLastname = TextEditingController();
+  final TextEditingController _controllerEmail = TextEditingController();
   final TextEditingController _controllerPassword = TextEditingController();
   final TextEditingController _controllerValidatePassword = TextEditingController();
-      
+
+  @override
+  void initState() {
+    super.initState();
+    loadData();
+  }
+  void loadData() async {
+    final usuarioProvider = Provider.of<UsuarioProvider>(context, listen: false);
+    _controllerName.text = usuarioProvider.usuario!.nombre;
+    _controllerLastname.text = usuarioProvider.usuario!.apellido;
+    _controllerEmail.text = usuarioProvider.usuario!.correo;
+  }
+
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;

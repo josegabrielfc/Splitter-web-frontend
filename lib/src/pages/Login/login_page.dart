@@ -1,10 +1,14 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 //import 'package:provider/provider.dart';
 //import 'package:splitter_web_frontend/src/providers/navigator_provider.dart';
 import 'package:splitter_web_frontend/src/config/environment/environment.dart';
 import 'package:splitter_web_frontend/src/models/login/login_model.dart';
+import 'package:splitter_web_frontend/src/models/usuario/usuario_model.dart';
 import 'package:splitter_web_frontend/src/providers/service_provider.dart';
+import 'package:splitter_web_frontend/src/providers/usuario_provider.dart';
 import 'package:splitter_web_frontend/src/widgets/inputs.dart';
 import 'package:splitter_web_frontend/src/widgets/widgets_general.dart';
 
@@ -99,9 +103,29 @@ class _LoginPageState extends State<LoginPage> {
                             .login(loginRequest);
                         if (response.type == 'success') {
                           // ignore: use_build_context_synchronously
+                          obtenerInfoUsuario(_controllerEmail.value.text, response.msg!, context);
+
+                          // ignore: use_build_context_synchronously
                           Navigator.pushNamed(context, "admin-page");
                         } else {
-                          print('error');
+                          // ignore: use_build_context_synchronously
+                          showDialog(
+                            // ignore: use_build_context_synchronously
+                            context: context,
+                            builder: (context) => AlertaVolver(
+                              width: 200,
+                              height: 150,
+                              function: () {
+                                Navigator.of(context).pop();
+                              },
+                              widthButton: 10,
+                              textoBoton: 'Volver',
+                              image: Image.asset(
+                                  'assets/images/warning.jpg', height: 80),
+                              mensaje: response.msg,
+                              dobleBoton: false,
+                            ),
+                          );
                         }
                       }),
                 ],
@@ -112,4 +136,16 @@ class _LoginPageState extends State<LoginPage> {
       ),
     );
   }
+}
+
+Future<void> obtenerInfoUsuario(String correo, String token, BuildContext context) async {
+  final servicePorvider =
+        Provider.of<ServicesProvider>(context, listen: false);
+  final response = await servicePorvider.usuarioService.detalleUsuario(correo, token);
+
+    // ignore: use_build_context_synchronously
+    final usuarioProvider = Provider.of<UsuarioProvider>(context, listen: false);
+      usuarioProvider.setToken(token);
+      usuarioProvider.setUsuario(response);
+                           
 }

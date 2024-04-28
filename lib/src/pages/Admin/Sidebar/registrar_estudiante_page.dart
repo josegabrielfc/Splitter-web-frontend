@@ -15,7 +15,6 @@ class RegistrarEstudiantePage extends StatefulWidget {
 
 class _RegistrarEstudiantePageState extends State<RegistrarEstudiantePage> {
   final TextEditingController _controllerName = TextEditingController();
-  final TextEditingController _controllerLastname = TextEditingController();
   final TextEditingController _controllerEmail = TextEditingController();
   final TextEditingController _controllerPassword = TextEditingController();
   final TextEditingController _controllerValidatePassword =
@@ -60,7 +59,7 @@ class _RegistrarEstudiantePageState extends State<RegistrarEstudiantePage> {
                 width:
                     selectDevice(web: 0.6, cel: 0.8, sizeContext: size.width),
                 height: size.height * 0.05,
-                hint: " Nombres*",
+                hint: " Nombre completo*, primero los nombres seguido de los apellidos",
                 controller: _controllerName,
               ),
             ),
@@ -73,20 +72,7 @@ class _RegistrarEstudiantePageState extends State<RegistrarEstudiantePage> {
                 width:
                     selectDevice(web: 0.6, cel: 0.8, sizeContext: size.width),
                 height: size.height * 0.05,
-                hint: " Apellidos*",
-                controller: _controllerLastname,
-              ),
-            ),
-            separadorVertical(context, 3),
-            Form(
-              child: CustomTextFormField(
-                sizeBorderRadius: 10,
-                hintColor: grisOscColor,
-                borderColor: negroClaColor,
-                width:
-                    selectDevice(web: 0.6, cel: 0.8, sizeContext: size.width),
-                height: size.height * 0.05,
-                hint: " Email*",
+                hint: " Email*, ejemplo: correo@gmail.com",
                 controller: _controllerEmail,
               ),
             ),
@@ -99,7 +85,7 @@ class _RegistrarEstudiantePageState extends State<RegistrarEstudiantePage> {
                 width:
                     selectDevice(web: 0.6, cel: 0.8, sizeContext: size.width),
                 height: size.height * 0.05,
-                hint: " Contraseña*",
+                hint: " Contraseña*, minimo 8 caracteres",
                 controller: _controllerPassword,
               ),
             ),
@@ -112,7 +98,7 @@ class _RegistrarEstudiantePageState extends State<RegistrarEstudiantePage> {
                 width:
                     selectDevice(web: 0.6, cel: 0.8, sizeContext: size.width),
                 height: size.height * 0.05,
-                hint: " Confirma Contraseña*",
+                hint: " Confirmar contraseña*, debe ser igual a la contraseña",
                 controller: _controllerValidatePassword,
               ),
             ),
@@ -124,8 +110,9 @@ class _RegistrarEstudiantePageState extends State<RegistrarEstudiantePage> {
                 sizeBorderRadius: 10,
                 hint: " Curso",
                 items: const [
-                  "Curso 1",
-                  "Curso 2",
+                  "A",
+                  "B",
+                  "C"
                 ],
                 onChanged: (value) => setState(() {
                   _curso = value.toString();
@@ -157,7 +144,17 @@ class _RegistrarEstudiantePageState extends State<RegistrarEstudiantePage> {
                     size: bigSize + 2,
                     color: grisColor,
                     hoverColor: grisOscColor,
-                    duration: 1000),
+                    duration: 1000,
+                    onTap: () {
+                      setState(() {
+                        _controllerName.text = "";
+                        _controllerEmail.text = "";
+                        _controllerPassword.text = "";
+                        _controllerValidatePassword.text  ="";
+                        _curso = "";
+                        
+                      });
+                    },),
               ],
             )
           ]),
