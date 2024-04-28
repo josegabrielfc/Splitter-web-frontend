@@ -9,6 +9,7 @@ import 'package:splitter_web_frontend/src/services/mixins/usuario_service.dart';
 
 
 class UsuarioServiceImlp with UsuarioService {
+
   @override
   Future<UsuarioModel> detalleUsuario(String correo, String token) async {
     final String url = '$urlBase/usuario/detalle?correo=$correo';
@@ -36,5 +37,32 @@ class UsuarioServiceImlp with UsuarioService {
   Future<Response> registrarEstudiante(UsuarioRegistro usuarioRegistro) {
     // TODO: implement registrarEstudiante
     throw UnimplementedError();
+  }
+  
+  @override
+  Future<Response> cambiarContrasena(int id, String contrasena, String token) async {
+    final String url = '$urlBase/usuario/cambiar';
+
+    final Map<String, String> headers = {
+      'Access-Control-Allow-Origin': '*',
+      'Content-Type': 'application/json',
+      'Accept': '*/*',
+      'Authorization': 'Bearer $token'
+    };
+
+    final Map<String, dynamic> bodyData = {
+        'id': id,
+        'contrasena': contrasena
+      };
+    final response = await http.put(
+      Uri.parse(url),
+      headers: headers,
+      body: jsonEncode(bodyData)
+    );
+
+    final responseBody = json.decode(response.body);
+    final Response respuesta = Response.fromJson(responseBody);
+
+    return respuesta;
   }
 }

@@ -7,5 +7,7 @@ mixin UsuarioService {
   Future<Response> registrarEstudiante(UsuarioRegistro usuarioRegistro);
 
   Future<UsuarioModel> detalleUsuario(String correo, String token);
+
+  Future<Response> cambiarContrasena(int id, String contrasena, String token);
   
 }

@@ -251,13 +251,13 @@ Widget botonCancelar(
     height: MediaQuery.of(context).size.height * heightButton / 100,
     decoration: BoxDecoration(
         borderRadius: const BorderRadius.all(Radius.circular(20)),
-        border: Border.all(color: rojoClaColor, width: 1.5)),
+        border: Border.all(color: negroClaColor, width: 1.5)),
     child: Center(
         child: texto(
       textButton,
       fontBold,
       size,
-      rojoClaColor,
+      negroClaColor,
       TextAlign.center,
     )),
   );

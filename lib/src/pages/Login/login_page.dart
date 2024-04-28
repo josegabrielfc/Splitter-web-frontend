@@ -1,4 +1,3 @@
-import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -6,7 +5,6 @@ import 'package:provider/provider.dart';
 //import 'package:splitter_web_frontend/src/providers/navigator_provider.dart';
 import 'package:splitter_web_frontend/src/config/environment/environment.dart';
 import 'package:splitter_web_frontend/src/models/login/login_model.dart';
-import 'package:splitter_web_frontend/src/models/usuario/usuario_model.dart';
 import 'package:splitter_web_frontend/src/providers/service_provider.dart';
 import 'package:splitter_web_frontend/src/providers/usuario_provider.dart';
 import 'package:splitter_web_frontend/src/widgets/inputs.dart';
@@ -147,5 +145,4 @@ Future<void> obtenerInfoUsuario(String correo, String token, BuildContext contex
     final usuarioProvider = Provider.of<UsuarioProvider>(context, listen: false);
       usuarioProvider.setToken(token);
       usuarioProvider.setUsuario(response);
-                           
 }
