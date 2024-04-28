@@ -34,9 +34,26 @@ class UsuarioServiceImlp with UsuarioService {
   }
 
   @override
-  Future<Response> registrarEstudiante(UsuarioRegistro usuarioRegistro) {
-    // TODO: implement registrarEstudiante
-    throw UnimplementedError();
+  Future<Response> registrarEstudiante(UsuarioRegistro usuarioRegistro, String token) async {
+    final String url = '$urlBase/usuario/guardarEstudiante';
+
+    final Map<String, String> headers = {
+      'Access-Control-Allow-Origin': '*',
+      'Content-Type': 'application/json',
+      'Accept': '*/*',
+      'Authorization': 'Bearer $token'
+    };
+
+    final response = await http.post(
+      Uri.parse(url),
+      headers: headers,
+      body: jsonEncode(usuarioRegistro)
+    );
+
+    final responseBody = json.decode(response.body);
+    final Response respuesta = Response.fromJson(responseBody);
+
+    return respuesta;
   }
   
   @override

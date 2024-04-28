@@ -9,12 +9,14 @@ class UsuarioRegistro {
     String apellido;
     String correo;
     String contrasenaDesencriptada;
+    String curso;
 
     UsuarioRegistro({
         required this.nombre,
         required this.apellido,
         required this.correo,
         required this.contrasenaDesencriptada,
+        required this.curso
     });
 
     factory UsuarioRegistro.fromJson(Map<String, dynamic> json) => UsuarioRegistro(
@@ -22,6 +24,7 @@ class UsuarioRegistro {
         apellido: json["apellido"],
         correo: json["correo"],
         contrasenaDesencriptada: json["contrasenaDesencriptada"],
+        curso: json["curso"]
     );
 
     Map<String, dynamic> toJson() => {
@@ -29,6 +32,7 @@ class UsuarioRegistro {
         "apellido": apellido,
         "correo": correo,
         "contrasenaDesencriptada": contrasenaDesencriptada,
+        "curso": curso
     };
 }
 

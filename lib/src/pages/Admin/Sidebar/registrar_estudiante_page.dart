@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:splitter_web_frontend/src/config/environment/environment.dart';
+import 'package:splitter_web_frontend/src/models/usuario/usuario_model.dart';
+import 'package:splitter_web_frontend/src/providers/service_provider.dart';
+import 'package:splitter_web_frontend/src/providers/usuario_provider.dart';
 import 'package:splitter_web_frontend/src/widgets/inputs.dart';
 import 'package:splitter_web_frontend/src/widgets/sidebar_widget.dart';
 import 'package:splitter_web_frontend/src/widgets/widgets_general.dart';
@@ -59,7 +63,8 @@ class _RegistrarEstudiantePageState extends State<RegistrarEstudiantePage> {
                 width:
                     selectDevice(web: 0.6, cel: 0.8, sizeContext: size.width),
                 height: size.height * 0.05,
-                hint: " Nombre completo*, primero los nombres seguido de los apellidos",
+                hint:
+                    " Nombre completo*, primero los nombres seguido de los apellidos",
                 controller: _controllerName,
               ),
             ),
@@ -109,11 +114,7 @@ class _RegistrarEstudiantePageState extends State<RegistrarEstudiantePage> {
               child: DropdownBuscador(
                 sizeBorderRadius: 10,
                 hint: " Curso",
-                items: const [
-                  "A",
-                  "B",
-                  "C"
-                ],
+                items: const ["A", "B", "C"],
                 onChanged: (value) => setState(() {
                   _curso = value.toString();
                 }),
@@ -125,40 +126,165 @@ class _RegistrarEstudiantePageState extends State<RegistrarEstudiantePage> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 CustomButton(
-                    textButton: "Registrar",
-                    widthButton: selectDevice(
-                        web: 0.2, cel: 0.375, sizeContext: size.width),
-                    sizeBorderRadius: 10,
-                    heightButton: size.height * 0.06,
-                    size: bigSize + 2,
-                    color: rojoClaColor,
-                    hoverColor: rojoColor,
-                    duration: 1000),
+                  textButton: "Registrar",
+                  widthButton: selectDevice(
+                      web: 0.2, cel: 0.375, sizeContext: size.width),
+                  sizeBorderRadius: 10,
+                  heightButton: size.height * 0.06,
+                  size: bigSize + 2,
+                  color: rojoClaColor,
+                  hoverColor: rojoColor,
+                  duration: 1000,
+                  onTap: () async {
+                    if (_controllerName.text.isEmpty ||
+                        _controllerEmail.text.isEmpty ||
+                        _controllerPassword.text.isEmpty ||
+                        _controllerValidatePassword.text.isEmpty ||
+                        _curso.isEmpty) {
+                      showDialog(
+                        context: context,
+                        builder: (context) => AlertaVolver(
+                          width: 230,
+                          height: 180,
+                          function: () {
+                            Navigator.of(context).pop();
+                          },
+                          widthButton: 10,
+                          textoBoton: 'Volver',
+                          image: Image.asset('assets/images/warning.jpg',
+                              height: 80),
+                          mensaje: "todos los campos son obligatorios.",
+                          dobleBoton: false,
+                        ),
+                      );
+                      return;
+                    }
+                    if (_controllerPassword.text.length < 8) {
+                      showDialog(
+                        // ignore: use_build_context_synchronously
+                        context: context,
+                        builder: (context) => AlertaVolver(
+                          width: 230,
+                          height: 180,
+                          function: () {
+                            Navigator.of(context).pop();
+                          },
+                          widthButton: 10,
+                          textoBoton: 'Volver',
+                          image: Image.asset('assets/images/warning.jpg',
+                              height: 80),
+                          mensaje:
+                              "La contraseña debe tener minimo 8 caracteres.",
+                          dobleBoton: false,
+                        ),
+                      );
+                      return;
+                    }
+                    if (_controllerPassword.text !=
+                        _controllerValidatePassword.text) {
+                      showDialog(
+                        // ignore: use_build_context_synchronously
+                        context: context,
+                        builder: (context) => AlertaVolver(
+                          width: 230,
+                          height: 180,
+                          function: () {
+                            Navigator.of(context).pop();
+                          },
+                          widthButton: 10,
+                          textoBoton: 'Volver',
+                          image: Image.asset('assets/images/warning.jpg',
+                              height: 80),
+                          mensaje: "Las contraseñas no son iguales.",
+                          dobleBoton: false,
+                        ),
+                      );
+                      return;
+                    }
+
+                    String nombre = '';
+                    String apellido = '';
+                    String textoNombreCompleto = _controllerName.text.trim();
+                    List<String> partesNombre = textoNombreCompleto.split(" ");
+                    if (partesNombre.isNotEmpty) {
+                      nombre = partesNombre.take(2).join(" ");
+                      if (partesNombre.length > 2) {
+                        apellido = partesNombre.sublist(2).join(" ");
+                      }
+                    }
+                    UsuarioRegistro usuarioRegistro = UsuarioRegistro(
+                        nombre: nombre,
+                        apellido: apellido,
+                        correo: _controllerEmail.text,
+                        contrasenaDesencriptada: _controllerPassword.text,
+                        curso: _curso);
+                    registrarEstudiante(usuarioRegistro, context);
+                  },
+                ),
                 separadorHorizontal(context, 2.5),
                 CustomButton(
-                    textButton: "Cancelar",
-                    widthButton: selectDevice(
-                        web: 0.2, cel: 0.375, sizeContext: size.width),
-                    sizeBorderRadius: 10,
-                    heightButton: size.height * 0.06,
-                    size: bigSize + 2,
-                    color: grisColor,
-                    hoverColor: grisOscColor,
-                    duration: 1000,
-                    onTap: () {
-                      setState(() {
-                        _controllerName.text = "";
-                        _controllerEmail.text = "";
-                        _controllerPassword.text = "";
-                        _controllerValidatePassword.text  ="";
-                        _curso = "";
-                        
-                      });
-                    },),
+                  textButton: "Cancelar",
+                  widthButton: selectDevice(
+                      web: 0.2, cel: 0.375, sizeContext: size.width),
+                  sizeBorderRadius: 10,
+                  heightButton: size.height * 0.06,
+                  size: bigSize + 2,
+                  color: grisColor,
+                  hoverColor: grisOscColor,
+                  duration: 1000,
+                  onTap: () {
+                    setState(() {
+                      _controllerName.text = "";
+                      _controllerEmail.text = "";
+                      _controllerPassword.text = "";
+                      _controllerValidatePassword.text = "";
+                      _curso = "";
+                    });
+                  },
+                ),
               ],
             )
           ]),
         ),
+      ),
+    );
+  }
+
+  Future<void> registrarEstudiante(
+      UsuarioRegistro usuarioRegistro, BuildContext context) async {
+    final servicePorvider =
+        Provider.of<ServicesProvider>(context, listen: false);
+    final usuarioProvider =
+        Provider.of<UsuarioProvider>(context, listen: false);
+
+    final response = await servicePorvider.usuarioService
+        .registrarEstudiante(usuarioRegistro, usuarioProvider.token!);
+
+    showDialog(
+      // ignore: use_build_context_synchronously
+      context: context,
+      builder: (context) => AlertaVolver(
+        width: 230,
+        height: 180,
+        function: () {
+          if (response.type == "success") {
+            setState(() {
+              _controllerName.text = "";
+              _controllerEmail.text = "";
+              _controllerPassword.text = "";
+              _controllerValidatePassword.text = "";
+              _curso = "";
+            });
+          }
+          Navigator.of(context).pop();
+        },
+        widthButton: 10,
+        textoBoton: 'Volver',
+        image: response.type == "success"
+            ? Image.asset('assets/images/success.png', height: 80)
+            : Image.asset('assets/images/warning.jpg', height: 80),
+        mensaje: response.msg,
+        dobleBoton: false,
       ),
     );
   }
