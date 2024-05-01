@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 //import 'package:provider/provider.dart';
@@ -101,7 +100,8 @@ class _LoginPageState extends State<LoginPage> {
                             .login(loginRequest);
                         if (response.type == 'success') {
                           // ignore: use_build_context_synchronously
-                          obtenerInfoUsuario(_controllerEmail.value.text, response.msg!, context);
+                          obtenerInfoUsuario(_controllerEmail.value.text,
+                              response.msg!, context);
 
                           // ignore: use_build_context_synchronously
                           Navigator.pushNamed(context, "admin-page");
@@ -118,8 +118,8 @@ class _LoginPageState extends State<LoginPage> {
                               },
                               widthButton: 10,
                               textoBoton: 'Volver',
-                              image: Image.asset(
-                                  'assets/images/warning.jpg', height: 80),
+                              image: Image.asset('assets/images/warning.jpg',
+                                  height: 80),
                               mensaje: response.msg,
                               dobleBoton: false,
                             ),
@@ -136,13 +136,14 @@ class _LoginPageState extends State<LoginPage> {
   }
 }
 
-Future<void> obtenerInfoUsuario(String correo, String token, BuildContext context) async {
-  final servicePorvider =
-        Provider.of<ServicesProvider>(context, listen: false);
-  final response = await servicePorvider.usuarioService.detalleUsuario(correo, token);
+Future<void> obtenerInfoUsuario(
+    String correo, String token, BuildContext context) async {
+  final servicePorvider = Provider.of<ServicesProvider>(context, listen: false);
+  final response =
+      await servicePorvider.usuarioService.detalleUsuario(correo, token);
 
-    // ignore: use_build_context_synchronously
-    final usuarioProvider = Provider.of<UsuarioProvider>(context, listen: false);
-      usuarioProvider.setToken(token);
-      usuarioProvider.setUsuario(response);
+  // ignore: use_build_context_synchronously
+  final usuarioProvider = Provider.of<UsuarioProvider>(context, listen: false);
+  usuarioProvider.setToken(token);
+  usuarioProvider.setUsuario(response);
 }
