@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-String urlBase = 'http://localhost:8080';
+String urlBase = 'http://184.72.72.79:8080/splitter/v1';
 
 Color rojoColor = const Color.fromARGB(255, 254, 0, 0);
 Color rojoClaColor = const Color.fromARGB(255, 252, 70, 70);
@@ -34,6 +34,8 @@ double mediumSize = 14;
 double bigSize = 16;
 double extraBigSize = 24;
 
-double selectDevice({required double web, required double cel, required double sizeContext}) { // size1 = Web | size2 = mobil
+double selectDevice(
+    {required double web, required double cel, required double sizeContext}) {
+  // size1 = Web | size2 = mobil
   return sizeContext > 1025 ? sizeContext * web : sizeContext * cel;
 }

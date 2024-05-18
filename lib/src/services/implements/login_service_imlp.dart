@@ -4,17 +4,13 @@ import 'package:splitter_web_frontend/src/models/login/login_model.dart';
 import 'package:splitter_web_frontend/src/services/mixins/login_service.dart';
 import 'package:http/http.dart' as http;
 
-import '../../config/environment/environment.dart';
-
 class LoginServiceImlp with LoginService {
   @override
   Future<Response> login(LoginModel loginRequest) async {
-    final String url = '$urlBase/login';
+    const String url = 'http://184.72.72.79:8080/login';
 
     final Map<String, String> headers = {
-      'Access-Control-Allow-Origin': '*',
       'Content-Type': 'application/json',
-      'Accept': '*/*'
     };
 
     final response = await http.post(

@@ -112,7 +112,7 @@ class _LoginPageState extends State<LoginPage> {
                             context: context,
                             builder: (context) => AlertaVolver(
                               width: 200,
-                              height: 150,
+                              height: 200,
                               function: () {
                                 Navigator.of(context).pop();
                               },
