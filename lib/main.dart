@@ -34,7 +34,7 @@ class AppState extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (_) => NavigatorProvider()),
         ChangeNotifierProvider(create: (_) => ServicesProvider()),
-        ChangeNotifierProvider(create: (_) => UsuarioProvider()), 
+        ChangeNotifierProvider(create: (_) => UsuarioProvider()),
         /*ChangeNotifierProvider(create: (_) => DatosGlobalesProvider()),
         */
       ],

@@ -23,8 +23,27 @@ class _RegistrarEstudiantePageState extends State<RegistrarEstudiantePage> {
   final TextEditingController _controllerPassword = TextEditingController();
   final TextEditingController _controllerValidatePassword =
       TextEditingController();
-  // ignore: unused_field
   String _curso = '';
+  List<CursoModel> cursos = [];
+
+  @override
+  void initState() {
+    super.initState();
+    loadData();
+  }
+
+  loadData() async {
+    final servicePorvider =
+        Provider.of<ServicesProvider>(context, listen: false);
+    final usuarioProvider =
+        Provider.of<UsuarioProvider>(context, listen: false);
+    final List<CursoModel> cursoLoad = await servicePorvider.usuarioService
+        .cursosByUsuario(usuarioProvider.usuario!.id, usuarioProvider.token!);
+    setState(() {
+      cursos = cursoLoad;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -112,13 +131,14 @@ class _RegistrarEstudiantePageState extends State<RegistrarEstudiantePage> {
               width: selectDevice(web: 0.6, cel: 0.8, sizeContext: size.width),
               height: size.height * 0.06,
               child: DropdownBuscador(
-                sizeBorderRadius: 10,
-                hint: " Curso",
-                items: const ["A", "B", "C"],
-                onChanged: (value) => setState(() {
-                  _curso = value.toString();
-                }),
-              ),
+                  sizeBorderRadius: 10,
+                  hint: " Curso",
+                  items: cursos,
+                  onChanged: (value) async {
+                    setState(() {
+                      _curso = value.toString();
+                    });
+                  }),
             ),
             separadorVertical(context, 4),
             Row(
@@ -145,7 +165,7 @@ class _RegistrarEstudiantePageState extends State<RegistrarEstudiantePage> {
                         context: context,
                         builder: (context) => AlertaVolver(
                           width: 230,
-                          height: 180,
+                          height: 200,
                           function: () {
                             Navigator.of(context).pop();
                           },
@@ -265,7 +285,7 @@ class _RegistrarEstudiantePageState extends State<RegistrarEstudiantePage> {
       context: context,
       builder: (context) => AlertaVolver(
         width: 230,
-        height: 180,
+        height: 250,
         function: () {
           if (response.type == "success") {
             setState(() {
