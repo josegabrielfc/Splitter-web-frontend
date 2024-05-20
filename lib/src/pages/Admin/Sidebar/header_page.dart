@@ -154,15 +154,15 @@ class _HeaderPageState extends State<HeaderPage> {
                         // ignore: use_build_context_synchronously
                         context: context,
                         builder: (context) => AlertaVolver(
-                          width: 230,
-                          height: 180,
+                          width: 250,
+                          height: 200,
                           function: () {
                             Navigator.of(context).pop();
                           },
                           widthButton: 10,
                           textoBoton: 'Volver',
                           image: Image.asset('assets/images/warning.jpg',
-                              height: 80),
+                              height: 70),
                           mensaje:
                               "La contraseña debe tener minimo 8 caracteres.",
                           dobleBoton: false,

@@ -38,10 +38,7 @@ class _LoginPageState extends State<LoginPage> {
         ),
         child: Scaffold(
           backgroundColor: Colors.transparent.withOpacity(0.5),
-          appBar: AppBar(
-            title: const Text('Splitter'),
-            backgroundColor: Colors.transparent,
-          ),
+          
           body: Center(
             child: Container(
               height: size.height * 0.6,
@@ -100,8 +97,7 @@ class _LoginPageState extends State<LoginPage> {
                             .login(loginRequest);
                         if (response.type == 'success') {
                           // ignore: use_build_context_synchronously
-                          obtenerInfoUsuario(_controllerEmail.value.text,
-                              response.msg!, context);
+                          obtenerInfoUsuario(_controllerEmail.value.text, response.msg!, context);
 
                           // ignore: use_build_context_synchronously
                           Navigator.pushNamed(context, "admin-page");
@@ -112,7 +108,7 @@ class _LoginPageState extends State<LoginPage> {
                             context: context,
                             builder: (context) => AlertaVolver(
                               width: 200,
-                              height: 150,
+                              height: 200,
                               function: () {
                                 Navigator.of(context).pop();
                               },
