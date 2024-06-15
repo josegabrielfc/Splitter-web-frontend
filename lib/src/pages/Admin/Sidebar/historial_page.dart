@@ -17,8 +17,9 @@ class HistorialPage extends StatefulWidget {
 
 class _HistorialPageState extends State<HistorialPage> {
   bool isLoading = true;
-
+  TextEditingController textEditingController = TextEditingController();
   List<HistorialModel> historial = [];
+  List<HistorialModel> historialFiltrado = [];
 
   @override
   void initState() {
@@ -37,7 +38,21 @@ class _HistorialPageState extends State<HistorialPage> {
 
     setState(() {
       historial = historialLoad;
+      historialFiltrado = historialLoad;
       isLoading = false;
+    });
+  }
+
+  void filtroHistorial(String query) {
+    setState(() {
+      final cleanQuery = query.trim().toLowerCase();
+
+      historialFiltrado = historial.where((resultado) {
+        final tema = getNombreTema(resultado.tema).toLowerCase();
+        final anio = resultado.anio.toString();
+
+        return tema.contains(cleanQuery) || anio.contains(cleanQuery);
+      }).toList();
     });
   }
 
@@ -56,51 +71,87 @@ class _HistorialPageState extends State<HistorialPage> {
         ),
         body: Column(children: [
           separadorVertical(context, 5),
-          Align(
-            alignment: Alignment.centerRight,
-            child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: CustomButton(
-                textButton: "Generar reporte anual",
-                widthButton: 300,
-                heightButton: 45,
-                size: mediumSize,
-                color: rojoClaColor,
-                hoverColor: rojoColor,
-                duration: 1000,
-                onTap: () async {
-                  final response = await servicePorvider.historialService
-                      .generarHistorial(usuarioProvider.token!);
-                  showDialog(
-                    // ignore: use_build_context_synchronously
-                    context: context,
-                    builder: (context) => AlertaVolver(
-                      width: 200,
-                      height: 200,
-                      function: () {
-                        Navigator.of(context).pop();
-                      },
-                      widthButton: 10,
-                      textoBoton: 'Volver',
-                      image: Image.asset(
-                          response.type == "OK"
-                              ? 'assets/images/success.png'
-                              : 'assets/images/warning.jpg',
-                          height: 80),
-                      mensaje: response.msg,
-                      dobleBoton: false,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(left: 30, right: 10),
+                child: Container(
+                  width: 600,
+                  height: 50,
+                  decoration: BoxDecoration(
+                      border: Border.all(color: grisClaColor),
+                      borderRadius:
+                          const BorderRadius.all(Radius.circular(30))),
+                  child: TextField(
+                    style: TextStyle(color: negroColor),
+                    controller: textEditingController,
+                    onChanged: (value) {
+                      filtroHistorial(value);
+                    },
+                    decoration: InputDecoration(
+                      hintText: 'Buscar...',
+                      hintStyle: TextStyle(
+                        fontFamily: fontApp,
+                        fontSize: 16,
+                      ),
+                      suffixIcon: Icon(Icons.search, color: negroColor),
+                      border: const OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(30)),
+                        borderSide: BorderSide.none,
+                      ),
                     ),
-                  );
-
-                  loadData();
-                },
+                  ),
+                ),
               ),
-            ),
+              separadorHorizontal(context, 10),
+              Align(
+                alignment: Alignment.centerRight,
+                child: Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  child: CustomButton(
+                    textButton: "Generar reporte anual",
+                    widthButton: 300,
+                    heightButton: 45,
+                    size: mediumSize,
+                    color: rojoClaColor,
+                    hoverColor: rojoColor,
+                    duration: 1000,
+                    onTap: () async {
+                      final response = await servicePorvider.historialService
+                          .generarHistorial(usuarioProvider.token!);
+                      showDialog(
+                        // ignore: use_build_context_synchronously
+                        context: context,
+                        builder: (context) => AlertaVolver(
+                          width: 200,
+                          height: 200,
+                          function: () {
+                            Navigator.of(context).pop();
+                          },
+                          widthButton: 10,
+                          textoBoton: 'Volver',
+                          image: Image.asset(
+                              response.type == "OK"
+                                  ? 'assets/images/success.png'
+                                  : 'assets/images/warning.jpg',
+                              height: 80),
+                          mensaje: response.msg,
+                          dobleBoton: false,
+                        ),
+                      );
+
+                      loadData();
+                    },
+                  ),
+                ),
+              ),
+            ],
           ),
           separadorVertical(context, 5),
           isLoading
               ? const Center(child: CircularProgressIndicator.adaptive())
-              : tablaHistorial(context, historial)
+              : tablaHistorial(context, historialFiltrado)
         ]));
   }
 }
