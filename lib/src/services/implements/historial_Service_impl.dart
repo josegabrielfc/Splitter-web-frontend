@@ -5,6 +5,8 @@ import 'package:splitter_web_frontend/src/services/mixins/historial_service.dart
 
 import 'package:http/http.dart' as http;
 
+import '../../models/global_models.dart';
+
 class HistorialServiceImpl with HistorialService {
   @override
   Future<List<HistorialModel>> getHistorial(String token) async {
@@ -32,5 +34,26 @@ class HistorialServiceImpl with HistorialService {
       return [];
     }
 
+  }
+  
+  @override
+  Future<Response> generarHistorial(String token) async {
+   String url = "$urlBase/historico/generar";
+
+    final Map<String, String> headers = {
+      'Access-Control-Allow-Origin': '*',
+      'Content-Type': 'application/json',
+      'Accept': '*/*',
+      'Authorization': 'Bearer $token'
+    };
+
+    final response = await http.get(
+      Uri.parse(url),
+      headers: headers,
+    );
+
+    dynamic responseBody = json.decode(response.body);
+
+    return Response.fromJson(responseBody);
   }
 }

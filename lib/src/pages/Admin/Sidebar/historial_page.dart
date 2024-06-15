@@ -43,6 +43,10 @@ class _HistorialPageState extends State<HistorialPage> {
 
   @override
   Widget build(BuildContext context) {
+    final servicePorvider =
+        Provider.of<ServicesProvider>(context, listen: false);
+    final usuarioProvider =
+        Provider.of<UsuarioProvider>(context, listen: false);
     return Scaffold(
         drawer: const SidebarWidget(),
         appBar: AppBar(
@@ -64,7 +68,32 @@ class _HistorialPageState extends State<HistorialPage> {
                 color: rojoClaColor,
                 hoverColor: rojoColor,
                 duration: 1000,
-                onTap: () {},
+                onTap: () async {
+                  final response = await servicePorvider.historialService
+                      .generarHistorial(usuarioProvider.token!);
+                  showDialog(
+                    // ignore: use_build_context_synchronously
+                    context: context,
+                    builder: (context) => AlertaVolver(
+                      width: 200,
+                      height: 200,
+                      function: () {
+                        Navigator.of(context).pop();
+                      },
+                      widthButton: 10,
+                      textoBoton: 'Volver',
+                      image: Image.asset(
+                          response.type == "OK"
+                              ? 'assets/images/success.png'
+                              : 'assets/images/warning.jpg',
+                          height: 80),
+                      mensaje: response.msg,
+                      dobleBoton: false,
+                    ),
+                  );
+
+                  loadData();
+                },
               ),
             ),
           ),
@@ -107,7 +136,7 @@ Widget tablaHistorial(BuildContext context, List<HistorialModel> historial) {
                     child: texto(
                       "Tema",
                       fontBold,
-                      14,
+                      18,
                       blancoColor,
                       TextAlign.end,
                     ),
@@ -117,7 +146,7 @@ Widget tablaHistorial(BuildContext context, List<HistorialModel> historial) {
                   texto(
                     "Puntaje",
                     fontBold,
-                    14,
+                    18,
                     blancoColor,
                     TextAlign.end,
                   ),
@@ -126,7 +155,7 @@ Widget tablaHistorial(BuildContext context, List<HistorialModel> historial) {
                   texto(
                     "Año",
                     fontBold,
-                    14,
+                    18,
                     blancoColor,
                     TextAlign.end,
                   ),
@@ -160,7 +189,7 @@ Widget tablaHistorial(BuildContext context, List<HistorialModel> historial) {
                         child: texto(
                           getNombreTema(historial[index].tema),
                           fontApp,
-                          14,
+                          16,
                           negroColor,
                           TextAlign.center,
                         ),
@@ -169,7 +198,7 @@ Widget tablaHistorial(BuildContext context, List<HistorialModel> historial) {
                         texto(
                           historial[index].puntaje.toString(),
                           fontApp,
-                          14,
+                          16,
                           negroColor,
                           TextAlign.center,
                         ),
@@ -178,7 +207,7 @@ Widget tablaHistorial(BuildContext context, List<HistorialModel> historial) {
                         texto(
                           historial[index].anio.toString(),
                           fontApp,
-                          14,
+                          16,
                           negroColor,
                           TextAlign.center,
                         ),
@@ -193,12 +222,12 @@ Widget tablaHistorial(BuildContext context, List<HistorialModel> historial) {
 }
 
 String getNombreTema(int id) {
-    final Map<int, String> mapaTemas = {
-  1: "Concepto de fracción",
-  2: "Simplificar fracciones",
-  3: "Fracciones equivalentes",
-  4: "Sumar y restar fracciones",
-  5: "Multiplicar y dividir fracciones",
-};
-    return mapaTemas[id] ?? "";
-  }
+  final Map<int, String> mapaTemas = {
+    1: "Concepto de fracción",
+    2: "Simplificar fracciones",
+    3: "Fracciones equivalentes",
+    4: "Sumar y restar fracciones",
+    5: "Multiplicar y dividir fracciones",
+  };
+  return mapaTemas[id] ?? "";
+}
