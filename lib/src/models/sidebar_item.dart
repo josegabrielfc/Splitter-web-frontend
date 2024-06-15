@@ -4,6 +4,6 @@ enum SidebarItem {
   estudiantes,
   workflow,
   editarEstudiante,
-  plugins,
+  historial,
   notifications,
 }

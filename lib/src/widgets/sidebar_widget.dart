@@ -63,9 +63,9 @@ class SidebarWidget extends StatelessWidget {
                     const SizedBox(height: 24),
                     buildMenuItem(
                       context,
-                      item: SidebarItem.plugins,
-                      text: 'Plugins',
-                      icon: Icons.account_tree_outlined,
+                      item: SidebarItem.historial,
+                      text: 'Historial',
+                      icon: Icons.history_edu_outlined,
                     ),
                     const SizedBox(height: 16),
                     buildMenuItem(
