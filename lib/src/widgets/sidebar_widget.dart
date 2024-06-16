@@ -13,78 +13,65 @@ class SidebarWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final usuarioProvider = Provider.of<UsuarioProvider>(context, listen: false);
+    final usuarioProvider =
+        Provider.of<UsuarioProvider>(context, listen: false);
     return Drawer(
-    
-        child: Container(
-          color: const Color.fromRGBO(142, 142, 142, 1),
-          child: ListView(
-            children: <Widget>[
-              buildHeader(
-                context,
-                urlImage: 'assets/images/user_icon.png',
-                name: usuarioProvider.usuario!.nombre,
-                email: usuarioProvider.usuario!.correo,
+      child: Container(
+        color: const Color.fromRGBO(142, 142, 142, 1),
+        child: ListView(
+          children: <Widget>[
+            buildHeader(
+              context,
+              urlImage: 'assets/images/user_icon.png',
+              name: usuarioProvider.usuario!.nombre,
+              email: usuarioProvider.usuario!.correo,
+            ),
+            Container(
+              padding: padding,
+              child: Column(
+                children: [
+                  const SizedBox(height: 24),
+                  buildMenuItem(
+                    context,
+                    item: SidebarItem.registrarUsuario,
+                    text: 'Registrar Usuario',
+                    icon: Icons.person_add_alt_1,
+                  ),
+                  const SizedBox(height: 16),
+                  buildMenuItem(
+                    context,
+                    item: SidebarItem.estudiantes,
+                    text: 'Estudiantes',
+                    icon: Icons.people,
+                  ),
+                  const SizedBox(height: 16),
+                  buildMenuItem(
+                    context,
+                    item: SidebarItem.workflow,
+                    text: 'Preguntas',
+                    icon: Icons.workspaces_outline,
+                  ),
+                  const SizedBox(height: 24),
+                  const Divider(color: Colors.white70),
+                  const SizedBox(height: 24),
+                  buildMenuItem(
+                    context,
+                    item: SidebarItem.historial,
+                    text: 'Historial',
+                    icon: Icons.history_edu_outlined,
+                  ),
+                  const SizedBox(height: 16),
+                ],
               ),
-              Container(
-                padding: padding,
-                child: Column(
-                  children: [
-                    const SizedBox(height: 24),
-                    buildMenuItem(
-                      context,
-                      item: SidebarItem.registrarUsuario,
-                      text: 'Registrar Usuario',
-                      icon: Icons.person_add_alt_1,
-                    ),
-                    const SizedBox(height: 16),
-                    buildMenuItem(
-                      context,
-                      item: SidebarItem.estudiantes,
-                      text: 'Estudiantes',
-                      icon: Icons.people,
-                    ),
-                    const SizedBox(height: 16),
-                    buildMenuItem(
-                      context,
-                      item: SidebarItem.workflow,
-                      text: 'Workflow',
-                      icon: Icons.workspaces_outline,
-                    ),
-                    const SizedBox(height: 16),
-                    buildMenuItem(
-                      context,
-                      item: SidebarItem.editarEstudiante,
-                      text: 'Updates',
-                      icon: Icons.update,
-                    ),
-                    const SizedBox(height: 24),
-                    const Divider(color: Colors.white70),
-                    const SizedBox(height: 24),
-                    buildMenuItem(
-                      context,
-                      item: SidebarItem.historial,
-                      text: 'Historial',
-                      icon: Icons.history_edu_outlined,
-                    ),
-                    const SizedBox(height: 16),
-                    buildMenuItem(
-                      context,
-                      item: SidebarItem.notifications,
-                      text: 'Notifications',
-                      icon: Icons.notifications_outlined,
-                    ),
-                  ],
-                ),
-              ),
-              separadorVertical(context, 17),
-              buildLogo(context, image: 'images/logo-colegio.png'),
-            ],
-          ),
+            ),
+            separadorVertical(context, 17),
+            buildLogo(context, image: 'images/logo-colegio.png'),
+          ],
         ),
-      );
-
+      ),
+    );
   }
+
   Widget buildMenuItem(
     BuildContext context, {
     required SidebarItem item,
@@ -94,8 +81,8 @@ class SidebarWidget extends StatelessWidget {
     final provider = Provider.of<SidebarProvider>(context);
     final currentItem = provider.sidebarItem;
     final isSelected = item == currentItem;
-    
-    final color =  blancoColor;
+
+    final color = blancoColor;
 
     return Material(
       color: Colors.transparent,
@@ -150,21 +137,22 @@ class SidebarWidget extends StatelessWidget {
           ),
         ),
       );
-    
-    Widget buildLogo(
+
+  Widget buildLogo(
     BuildContext context, {
     required String image,
   }) =>
       Material(
         color: const Color.fromRGBO(142, 142, 142, 1),
         child: Container(
-            padding: const EdgeInsets.all(10),
-            height: MediaQuery.of(context).size.height * 0.14,
-            child: Container(
-              decoration: BoxDecoration(
-                image: DecorationImage(image: AssetImage(image), fit: BoxFit.scaleDown),
-              ),
+          padding: const EdgeInsets.all(10),
+          height: MediaQuery.of(context).size.height * 0.14,
+          child: Container(
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                  image: AssetImage(image), fit: BoxFit.scaleDown),
             ),
           ),
+        ),
       );
 }

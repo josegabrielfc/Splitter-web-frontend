@@ -8,6 +8,7 @@ import 'package:provider/provider.dart';
 import 'package:splitter_web_frontend/src/config/environment/environment.dart';
 import 'package:splitter_web_frontend/src/config/routes/routes.dart';
 import 'package:splitter_web_frontend/src/providers/navigator_provider.dart';
+import 'package:splitter_web_frontend/src/providers/question_provider.dart';
 import 'package:splitter_web_frontend/src/providers/service_provider.dart';
 import 'package:splitter_web_frontend/src/providers/usuario_provider.dart';
 
@@ -35,6 +36,7 @@ class AppState extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => NavigatorProvider()),
         ChangeNotifierProvider(create: (_) => ServicesProvider()),
         ChangeNotifierProvider(create: (_) => UsuarioProvider()),
+        ChangeNotifierProvider(create: (_) => QuestionProvider()),
         /*ChangeNotifierProvider(create: (_) => DatosGlobalesProvider()),
         */
       ],
