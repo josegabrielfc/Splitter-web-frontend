@@ -6,8 +6,8 @@ import 'package:splitter_web_frontend/src/pages/Admin/Sidebar/Estudiantes/editar
 import 'package:splitter_web_frontend/src/pages/Admin/Sidebar/Estudiantes/estudiantes_page.dart';
 import 'package:splitter_web_frontend/src/pages/Admin/Sidebar/header_page.dart';
 import 'package:splitter_web_frontend/src/pages/Admin/Sidebar/log_out.dart';
+import 'package:splitter_web_frontend/src/pages/Admin/Sidebar/historial_page.dart';
 import 'package:splitter_web_frontend/src/pages/Admin/Sidebar/notifications_page.dart';
-import 'package:splitter_web_frontend/src/pages/Admin/Sidebar/plugins_page.dart';
 import 'package:splitter_web_frontend/src/pages/Admin/Sidebar/registrar_estudiante_page.dart';
 import 'package:splitter_web_frontend/src/pages/Admin/Sidebar/workflow_page.dart';
 import 'package:splitter_web_frontend/src/providers/sidebar_provider.dart';
@@ -38,8 +38,8 @@ class _AdminBuildPageState extends State<AdminBuildPage> {
         return const WorkflowPage();
       case SidebarItem.editarEstudiante:
         return const EditarEstudiantePage();
-      case SidebarItem.plugins:
-        return const PluginsPage();
+      case SidebarItem.historial:
+        return const HistorialPage();
       case SidebarItem.notifications:
         return const NotificationsPage();
       case SidebarItem.logOut:

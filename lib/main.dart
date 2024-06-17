@@ -13,6 +13,7 @@ import 'package:splitter_web_frontend/src/pages/Admin/Sidebar/registrar_estudian
 import 'package:splitter_web_frontend/src/pages/Admin/app_admin.dart';
 import 'package:splitter_web_frontend/src/pages/Login/login_page.dart';
 import 'package:splitter_web_frontend/src/providers/navigator_provider.dart';
+import 'package:splitter_web_frontend/src/providers/question_provider.dart';
 import 'package:splitter_web_frontend/src/providers/service_provider.dart';
 import 'package:splitter_web_frontend/src/providers/usuario_provider.dart';
 
@@ -38,6 +39,7 @@ class AppState extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => NavigatorProvider()),
         ChangeNotifierProvider(create: (_) => ServicesProvider()),
         ChangeNotifierProvider(create: (_) => UsuarioProvider()),
+        ChangeNotifierProvider(create: (_) => QuestionProvider()),
         /*ChangeNotifierProvider(create: (_) => DatosGlobalesProvider()),
         */
       ],
