@@ -5,6 +5,7 @@ import 'package:splitter_web_frontend/src/models/sidebar_item.dart';
 import 'package:splitter_web_frontend/src/pages/Admin/Sidebar/Estudiantes/editar_estudiante_page.dart';
 import 'package:splitter_web_frontend/src/pages/Admin/Sidebar/Estudiantes/estudiantes_page.dart';
 import 'package:splitter_web_frontend/src/pages/Admin/Sidebar/header_page.dart';
+import 'package:splitter_web_frontend/src/pages/Admin/Sidebar/log_out.dart';
 import 'package:splitter_web_frontend/src/pages/Admin/Sidebar/notifications_page.dart';
 import 'package:splitter_web_frontend/src/pages/Admin/Sidebar/plugins_page.dart';
 import 'package:splitter_web_frontend/src/pages/Admin/Sidebar/registrar_estudiante_page.dart';
@@ -41,6 +42,8 @@ class _AdminBuildPageState extends State<AdminBuildPage> {
         return const PluginsPage();
       case SidebarItem.notifications:
         return const NotificationsPage();
+      case SidebarItem.logOut:
+        return const LogOut();
     }
   }
 }

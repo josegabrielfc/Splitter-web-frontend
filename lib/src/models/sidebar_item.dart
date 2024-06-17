@@ -6,4 +6,5 @@ enum SidebarItem {
   editarEstudiante,
   plugins,
   notifications,
+  logOut,
 }

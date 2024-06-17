@@ -2,20 +2,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:go_router/go_router.dart';
 //import 'package:flutter_webrtc/flutter_webrtc.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:provider/provider.dart';
 import 'package:splitter_web_frontend/src/config/environment/environment.dart';
+import 'package:splitter_web_frontend/src/config/helpers/local_storage.dart';
 import 'package:splitter_web_frontend/src/config/routes/routes.dart';
+import 'package:splitter_web_frontend/src/pages/Admin/Sidebar/registrar_estudiante_page.dart';
+import 'package:splitter_web_frontend/src/pages/Admin/app_admin.dart';
+import 'package:splitter_web_frontend/src/pages/Login/login_page.dart';
 import 'package:splitter_web_frontend/src/providers/navigator_provider.dart';
 import 'package:splitter_web_frontend/src/providers/service_provider.dart';
 import 'package:splitter_web_frontend/src/providers/usuario_provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  //if (WebRTC.platformIsDesktop) {
-  //debugDefaultTargetPlatformOverride = TargetPlatform.fuchsia;
-  //}
+  await LocalStorage.configurePrefs();
   await initializeDateFormatting('es', null);
   initializeDateFormatting().then((_) => runApp(const AppState()));
   runApp(const AppState());
@@ -38,14 +41,41 @@ class AppState extends StatelessWidget {
         /*ChangeNotifierProvider(create: (_) => DatosGlobalesProvider()),
         */
       ],
-      child: const MyApp(),
+      child: MyApp(),
     );
   }
 }
 
 class MyApp extends StatelessWidget {
   static const String title = 'Splitter';
-  const MyApp({super.key});
+
+  final GoRouter _router = GoRouter(
+    routes: <GoRoute>[
+      GoRoute(
+        path: '/',
+        builder: (BuildContext context, GoRouterState state) {
+          return LocalStorage.getToken() == null ? const LoginPage() : const AppAdmin();
+        },
+      ),
+      GoRoute(
+        path: '/login',
+        builder: (BuildContext context, GoRouterState state) {
+          return const LoginPage();
+        },
+      ),GoRoute(
+        path: '/admin',
+        builder: (BuildContext context, GoRouterState state) {
+          return LocalStorage.getToken() == null ? const LoginPage() : const AppAdmin();
+        },
+      ),
+      GoRoute(
+        path: '/registrar-estudiante',
+        builder: (BuildContext context, GoRouterState state) {
+          return LocalStorage.getToken() == null ? const LoginPage() : const RegistrarEstudiantePage();
+        },
+      ),
+    ],
+  );
 
   @override
   Widget build(BuildContext context) {
