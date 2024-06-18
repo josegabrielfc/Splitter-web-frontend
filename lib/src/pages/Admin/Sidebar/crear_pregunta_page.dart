@@ -18,6 +18,7 @@ class CrearPreguntaPageState extends State<CrearPreguntaPage> {
   final _answerControllers =
       List.generate(4, (index) => TextEditingController());
   String? _selectedCategory;
+  int? _selectedCorrectAnswerIndex;
 
   final List<String> _categories = [
     'Concepto de fracción',
@@ -37,7 +38,7 @@ class CrearPreguntaPageState extends State<CrearPreguntaPage> {
   }
 
   void _saveQuestion() {
-    if (_formKey.currentState!.validate()) {
+    if (_formKey.currentState!.validate() && _selectedCorrectAnswerIndex != null) {
       final question = _questionController.text;
       final answers =
           _answerControllers.map((controller) => controller.text).toList();
@@ -46,6 +47,7 @@ class CrearPreguntaPageState extends State<CrearPreguntaPage> {
         'category': _selectedCategory,
         'question': question,
         'answers': answers,
+        'correctAnswer': answers[_selectedCorrectAnswerIndex!],
       };
 
       Provider.of<QuestionProvider>(context, listen: false)
@@ -58,6 +60,7 @@ class CrearPreguntaPageState extends State<CrearPreguntaPage> {
       }
       setState(() {
         _selectedCategory = null;
+        _selectedCorrectAnswerIndex = null;
       });
 
       ScaffoldMessenger.of(context).showSnackBar(
@@ -131,20 +134,34 @@ class CrearPreguntaPageState extends State<CrearPreguntaPage> {
                 final controller = entry.value;
                 return Padding(
                   padding: const EdgeInsets.symmetric(vertical: 8.0),
-                  child: TextFormField(
-                    controller: controller,
-                    decoration: InputDecoration(
-                      labelText: 'Respuesta ${index + 1}',
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8.0),
+                  child: Column(
+                    children: [
+                      TextFormField(
+                        controller: controller,
+                        decoration: InputDecoration(
+                          labelText: 'Respuesta ${index + 1}',
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8.0),
+                          ),
+                        ),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Por favor ingrese una respuesta';
+                          }
+                          return null;
+                        },
                       ),
-                    ),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Por favor ingrese una respuesta';
-                      }
-                      return null;
-                    },
+                      RadioListTile<int>(
+                        title: Text('Marcar como respuesta correcta'),
+                        value: index,
+                        groupValue: _selectedCorrectAnswerIndex,
+                        onChanged: (value) {
+                          setState(() {
+                            _selectedCorrectAnswerIndex = value;
+                          });
+                        },
+                      ),
+                    ],
                   ),
                 );
               }).toList(),
@@ -184,6 +201,8 @@ class CrearPreguntaPageState extends State<CrearPreguntaPage> {
                               Text('Categoría: ${questionData['category']}'),
                               Text(
                                   'Respuestas: ${questionData['answers'].join(', ')}'),
+                              Text(
+                                  'Respuesta Correcta: ${questionData['correctAnswer']}'),
                             ],
                           ),
                         ),
