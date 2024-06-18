@@ -47,7 +47,7 @@ class SidebarWidget extends StatelessWidget {
                   const SizedBox(height: 16),
                   buildMenuItem(
                     context,
-                    item: SidebarItem.workflow,
+                    item: SidebarItem.pregunta,
                     text: 'Preguntas',
                     icon: Icons.workspaces_outline,
                   ),

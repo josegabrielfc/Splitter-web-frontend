@@ -92,7 +92,7 @@ class _CustomButtonState extends State<CustomButton> {
         decoration: BoxDecoration(
           boxShadow: [
             BoxShadow(
-              color: grisOscColor.withOpacity(0.5),
+              color: grisOscColor.withOpacity(0.4),
               spreadRadius: -2,
               blurRadius: 3,
               offset: const Offset(4, 4),

@@ -12,9 +12,11 @@ import 'package:splitter_web_frontend/src/config/routes/routes.dart';
 import 'package:splitter_web_frontend/src/pages/Admin/Sidebar/registrar_estudiante_page.dart';
 import 'package:splitter_web_frontend/src/pages/Admin/app_admin.dart';
 import 'package:splitter_web_frontend/src/pages/Login/login_page.dart';
+import 'package:splitter_web_frontend/src/providers/estudiante_provider.dart';
 import 'package:splitter_web_frontend/src/providers/navigator_provider.dart';
 import 'package:splitter_web_frontend/src/providers/question_provider.dart';
 import 'package:splitter_web_frontend/src/providers/service_provider.dart';
+import 'package:splitter_web_frontend/src/providers/tema_provider.dart';
 import 'package:splitter_web_frontend/src/providers/usuario_provider.dart';
 
 void main() async {
@@ -40,6 +42,8 @@ class AppState extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => ServicesProvider()),
         ChangeNotifierProvider(create: (_) => UsuarioProvider()),
         ChangeNotifierProvider(create: (_) => QuestionProvider()),
+        ChangeNotifierProvider(create: (_) => EstudianteProvider()),
+        ChangeNotifierProvider(create: (_) => TemaProvider()),
         /*ChangeNotifierProvider(create: (_) => DatosGlobalesProvider()),
         */
       ],
@@ -51,6 +55,7 @@ class AppState extends StatelessWidget {
 class MyApp extends StatelessWidget {
   static const String title = 'Splitter';
 
+  // ignore: unused_field
   final GoRouter _router = GoRouter(
     routes: <GoRoute>[
       GoRoute(

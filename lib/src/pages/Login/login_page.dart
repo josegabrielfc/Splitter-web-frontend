@@ -98,7 +98,6 @@ class _LoginPageState extends State<LoginPage> {
                         if (response.type == 'success') {
                           // ignore: use_build_context_synchronously
                           obtenerInfoUsuario(_controllerEmail.value.text, response.msg!, context);
-
                           // ignore: use_build_context_synchronously
                           Navigator.pushNamed(context, "admin-page");
                         } else {
@@ -134,9 +133,9 @@ class _LoginPageState extends State<LoginPage> {
 
 Future<void> obtenerInfoUsuario(
     String correo, String token, BuildContext context) async {
-  final servicePorvider = Provider.of<ServicesProvider>(context, listen: false);
+  final serviceProvider = Provider.of<ServicesProvider>(context, listen: false);
   final response =
-      await servicePorvider.usuarioService.detalleUsuario(correo, token);
+      await serviceProvider.usuarioService.detalleUsuario(correo, token);
 
   // ignore: use_build_context_synchronously
   final usuarioProvider = Provider.of<UsuarioProvider>(context, listen: false);

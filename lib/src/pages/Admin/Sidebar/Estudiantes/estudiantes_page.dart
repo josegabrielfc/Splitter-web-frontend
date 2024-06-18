@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:splitter_web_frontend/src/models/sidebar_item.dart';
 import 'package:splitter_web_frontend/src/models/usuario/usuario_model.dart';
+import 'package:splitter_web_frontend/src/providers/estudiante_provider.dart';
 import 'package:splitter_web_frontend/src/providers/service_provider.dart';
+import 'package:splitter_web_frontend/src/providers/sidebar_provider.dart';
 import 'package:splitter_web_frontend/src/providers/usuario_provider.dart';
 import 'package:splitter_web_frontend/src/widgets/inputs.dart';
 import 'package:splitter_web_frontend/src/widgets/sidebar_widget.dart';
@@ -33,6 +36,7 @@ class _EstudiantesPageState extends State<EstudiantesPage> {
         Provider.of<ServicesProvider>(context, listen: false);
     final usuarioProvider =
         Provider.of<UsuarioProvider>(context, listen: false);
+    obtenerTemas(usuarioProvider.token!, context);
     final List<CursoModel> cursoLoad = await servicePorvider.usuarioService
         .cursosByUsuario(usuarioProvider.usuario!.id, usuarioProvider.token!);
 
@@ -224,7 +228,19 @@ Widget tablaHistorial(
                           color: rojoClaColor,
                           hoverColor: rojoColor,
                           duration: 1000,
-                          onTap: () {},
+                          onTap: () async {
+                            EstudianteProvider estudianteProvider =
+                                Provider.of<EstudianteProvider>(context,
+                                    listen: false);
+                            estudianteProvider.nombre =
+                                "${estudiantes[index].nombre!} ${estudiantes[index].apellido!}";
+                            estudianteProvider.id = estudiantes[index].id;
+                            final provider = Provider.of<SidebarProvider>(
+                                context,
+                                listen: false);
+                            provider
+                                .setSidebarItem(SidebarItem.revisarEstudiante);
+                          },
                         ),
                       ]),
                     ])
@@ -235,3 +251,13 @@ Widget tablaHistorial(
     ],
   );
 }
+  Future<void> obtenerTemas(String token, BuildContext context) async {
+    final servicePorvider =
+        Provider.of<ServicesProvider>(context, listen: false);
+    final response = await servicePorvider.temaService.listarTemas(token);
+
+    final usuarioProvider =
+        // ignore: use_build_context_synchronously
+        Provider.of<UsuarioProvider>(context, listen: false);
+    usuarioProvider.setTemas(response);
+  }

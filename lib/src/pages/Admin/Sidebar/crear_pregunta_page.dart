@@ -5,14 +5,14 @@ import 'package:splitter_web_frontend/src/widgets/sidebar_widget.dart';
 import '../../../config/environment/environment.dart';
 import '../../../widgets/widgets_general.dart';
 
-class WorkflowPage extends StatefulWidget {
-  const WorkflowPage({super.key});
+class CrearPreguntaPage extends StatefulWidget {
+  const CrearPreguntaPage({super.key});
 
   @override
-  _WorkflowPageState createState() => _WorkflowPageState();
+  CrearPreguntaPageState createState() => CrearPreguntaPageState();
 }
 
-class _WorkflowPageState extends State<WorkflowPage> {
+class CrearPreguntaPageState extends State<CrearPreguntaPage> {
   final _formKey = GlobalKey<FormState>();
   final _questionController = TextEditingController();
   final _answerControllers =
