@@ -32,7 +32,7 @@ class _LoginPageState extends State<LoginPage> {
         height: size.height,
         decoration: const BoxDecoration(
           image: DecorationImage(
-            image: AssetImage('images/foto-colegio.png'),
+            image: AssetImage('assets/images/foto-colegio.png'),
             fit: BoxFit.cover,
           ),
         ),
